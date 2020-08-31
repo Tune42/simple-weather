@@ -4,6 +4,7 @@ import './index.css';
 import 'bulma/css/bulma.css'
 import {SearchBar, LoadingBar} from './bars';
 import {WeatherBlock, HourlyRow, DailyRow} from './weather';
+import Geocode from 'react-geocode';
 
 class App extends React.Component {
   constructor(props) {
@@ -28,6 +29,9 @@ class App extends React.Component {
   }
 
   async callAPI(position) {
+    this.setState({
+      loading : true,
+    })
     const apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial&APPID=b582138cf158eb5c64ca8b60a8d81fe1`;
     let response = await fetch(apiURL);
     if (response.ok) { // if HTTP-status is 200-299
@@ -44,11 +48,29 @@ class App extends React.Component {
     }
   }
 
+  getCoordinates = (location) => {
+    Geocode.fromAddress(location).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        const position = {
+          coords : {
+            latitude : lat,
+            longitude : lng
+          }
+        }
+        this.callAPI(position);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
   render() {
     return (
       <div className='page'>
         <h1 className='title is-1'>Simple Weather</h1>
-        <SearchBar />
+        <SearchBar getCoordinates={this.getCoordinates} />
         <LoadingBar loading={this.state.loading} />
         <span className={this.state.loading ? 'hide-weather' : ''}>
         <WeatherBlock icon={this.state.current[0]} 

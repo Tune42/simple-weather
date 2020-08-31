@@ -1,13 +1,78 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-repeat: repeat-y;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1, h2 {
+    text-align: center;
+}
+
+.forecast-title {
+    color: black !important;
+    border-color: black;
+    background-color: #DDD;
+    border-radius: 15px;
+    width: 300px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-shadow: 3px 2px 2px black;
+}
+
+.page {
+    min-height: 100vh;
+}
+
+.weather-block {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #DDD;
+    border-radius: 10px;
+    box-shadow: 7px 5px 5px black;
+}
+
+.location-search {
+    width: 75%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.search-bar {
+    text-align: center;
+}
+
+.weather-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+}
+
+.row-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 20%;
+    min-width: 200px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 15px;
+    background-color: #DDD;
+    box-shadow: 7px 5px 5px black;
+}
+
+.hide-weather {
+    visibility: hidden;
 }

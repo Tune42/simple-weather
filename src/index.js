@@ -29,9 +29,6 @@ class App extends React.Component {
   }
 
   async callAPI(position) {
-    this.setState({
-      loading : true,
-    })
     const apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial&APPID=b582138cf158eb5c64ca8b60a8d81fe1`;
     let response = await fetch(apiURL);
     if (response.ok) { // if HTTP-status is 200-299
@@ -49,6 +46,10 @@ class App extends React.Component {
   }
 
   getCoordinates = (location) => {
+    this.setState({
+      loading : true,
+    });
+    Geocode.setApiKey('AIzaSyDGHeqdv-VNFfrp4hsC6lB6AoXQtZD7oTY');
     Geocode.fromAddress(location).then(
       response => {
         const { lat, lng } = response.results[0].geometry.location;

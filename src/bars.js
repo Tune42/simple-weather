@@ -4,26 +4,33 @@ class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value : null,
+            value : '',
         }
     }
 
     handleChange = (e) => {
+        console.log(e.target.value);
+        const value = e.target.value;
         this.setState({
-            value : e.value,
+            value : value,
         })
     }
 
     handleSubmit = (e, value) => {
         e.preventDefault();
+        console.log(value);
         this.props.getCoordinates(value);
     }
 
     render() {
         return (
-            <form className='location-search mb-5'>
-                <input className='input is-info small-input is-rounded search-bar' 
-                type='text' placeholder='Search a new location' onChange={this.handleChange} onSubmit={(e) => this.handleSubmit(this.state.value, e)}>{this.state.value}</input>
+            <form className='location-search mb-5' onSubmit={(e) => this.handleSubmit(e, this.state.value)}>
+                <input 
+                className='input is-info small-input is-rounded search-bar' 
+                type='text' 
+                placeholder='Search a new location' 
+                onChange={this.handleChange}
+                value={this.state.value} />
             </form>
         )
     }

@@ -3,28 +3,23 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bulma/css/bulma.css'
 import {SearchBar, LoadingBar} from './bars';
-import {WeatherBlock, HourlyRow, DailyRow} from './weather';
-import {weather, geocode} from './keys';
+import {WeatherBlock, DailyRow, HourlyRow} from './weather';
+import {weather, geocode, dummydata} from './keys';
 import Geocode from 'react-geocode';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      current : '',
-      hourly : [['', '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', '']],
-      daily : [['', '', ''], ['', '', ''], ['', '', ''], ['', '', ''], ['', '', '']],
+      weather : dummydata,
       loading : true,
     };
     this.callAPI = this.callAPI.bind(this);
   }
 
   parseWeatherObject = data => {
-    console.log(data);
     this.setState({
-      current : [`http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`, data.current.weather[0].description, data.current.temp, data.current.feels_like],
-      hourly : [[`http://openweathermap.org/img/wn/${data.hourly[1].weather[0].icon}@2x.png`, data.hourly[1].weather[0].description, data.hourly[1].temp, data.hourly[1].feels_like], [`http://openweathermap.org/img/wn/${data.hourly[2].weather[0].icon}@2x.png`, data.hourly[2].weather[0].description, data.hourly[2].temp, data.hourly[2].feels_like], [`http://openweathermap.org/img/wn/${data.hourly[3].weather[0].icon}@2x.png`, data.hourly[3].weather[0].description, data.hourly[3].temp, data.hourly[3].feels_like], [`http://openweathermap.org/img/wn/${data.hourly[4].weather[0].icon}@2x.png`, data.hourly[4].weather[0].description, data.hourly[4].temp, data.hourly[4].feels_like], [`http://openweathermap.org/img/wn/${data.hourly[5].weather[0].icon}@2x.png`, data.hourly[5].weather[0].description, data.hourly[5].temp, data.hourly[5].feels_like]],
-      daily : [[`http://openweathermap.org/img/wn/${data.daily[1].weather[0].icon}@2x.png`, data.daily[1].weather[0].description, data.daily[1].temp.day], [`http://openweathermap.org/img/wn/${data.daily[2].weather[0].icon}@2x.png`, data.daily[2].weather[0].description, data.daily[2].temp.day], [`http://openweathermap.org/img/wn/${data.daily[3].weather[0].icon}@2x.png`, data.daily[3].weather[0].description, data.daily[3].temp.day], [`http://openweathermap.org/img/wn/${data.daily[4].weather[0].icon}@2x.png`, data.daily[4].weather[0].description, data.daily[4].temp.day], [`http://openweathermap.org/img/wn/${data.daily[5].weather[0].icon}@2x.png`, data.daily[5].weather[0].description, data.daily[5].temp.day]],
+      weather : JSON.stringify(data),
       loading : false,
     })
   }
@@ -69,20 +64,18 @@ class App extends React.Component {
   }
 
   render() {
+    const weather = JSON.parse(this.state.weather);
     return (
       <div className='page'>
         <h1 className='title is-1'>Simple Weather</h1>
         <SearchBar getCoordinates={this.getCoordinates} />
         <LoadingBar loading={this.state.loading} />
         <span className={this.state.loading ? 'hide-weather' : ''}>
-        <WeatherBlock icon={this.state.current[0]} 
-        description={this.state.current[1]} 
-        temperature={this.state.current[2]}
-        feelsLike={this.state.current[3]} />
+        <WeatherBlock weather={weather} />
         <h2 className='title is-3 forecast-title'>5-Hour Forecast</h2>
-        <HourlyRow data={this.state.hourly} />
+        <HourlyRow weather={weather} />
         <h2 className='title is-3 forecast-title'>5-Day Forecast</h2>
-        <DailyRow data={this.state.daily} />
+        <DailyRow weather={weather} />
         <br />
         <br />
         </span>

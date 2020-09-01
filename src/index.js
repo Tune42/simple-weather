@@ -4,6 +4,7 @@ import './index.css';
 import 'bulma/css/bulma.css'
 import {SearchBar, LoadingBar} from './bars';
 import {WeatherBlock, HourlyRow, DailyRow} from './weather';
+import {weather, geocode} from './keys';
 import Geocode from 'react-geocode';
 
 class App extends React.Component {
@@ -29,7 +30,7 @@ class App extends React.Component {
   }
 
   async callAPI(position) {
-    const apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial&APPID=b582138cf158eb5c64ca8b60a8d81fe1`;
+    const apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial&APPID=${weather}`;
     let response = await fetch(apiURL);
     if (response.ok) { // if HTTP-status is 200-299
       let data = await response.json();
@@ -49,7 +50,7 @@ class App extends React.Component {
     this.setState({
       loading : true,
     });
-    Geocode.setApiKey('AIzaSyDGHeqdv-VNFfrp4hsC6lB6AoXQtZD7oTY');
+    Geocode.setApiKey(`${geocode}`);
     Geocode.fromAddress(location).then(
       response => {
         const { lat, lng } = response.results[0].geometry.location;
@@ -89,7 +90,6 @@ class App extends React.Component {
     )
   }
 }
-
 
 ReactDOM.render(
   <App />,
